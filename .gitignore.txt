@@ -1,0 +1,11 @@
+# .gitignore 파일 내용
+
+# Streamlit DB 접속 정보가 담긴 파일 경로를 지정 (GitHub에 올리면 안 됨)
+.streamlit/secrets.toml 
+
+# 파이썬 가상 환경 폴더 제외 (선택 사항이지만 권장)
+.venv/
+
+# 파이썬 컴파일된 파일 제외
+__pycache__/
+*.pyc
