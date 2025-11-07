@@ -6,8 +6,7 @@ st.title("마당서점 주문 검색 (Streamlit)")
 # 1. st.connection을 사용하여 secrets.toml에 설정된 DB에 연결
 # "mydb"라는 이름의 연결 정보를 secrets.toml에서 가져옵니다.
 try:
-    # streamlit_app.py의 코드는 이미 모범적으로 작성되어 있어 수정할 필요가 없습니다.
-    conn = st.connection("mydb", type="sql")
+    conn = st.connection("mydb", type="sql") # <--- 이 부분이 secrets.toml의 [mydb] 섹션을 사용합니다.
 except Exception as e:
     st.error(f"데이터베이스 연결 설정에 문제가 있습니다: {e}")
     st.stop()
@@ -38,7 +37,8 @@ if search_button and customer_name:
     
     try:
         # conn.query를 사용하여 DB에서 데이터를 가져옵니다.
-        df = conn.query(sql, params=[customer_name], ttl=600)
+        # params=[customer_name]로 SQL 인젝션을 방지합니다.
+        df = conn.query(sql, params=[customer_name], ttl=600) 
 
         if not df.empty:
             st.success(f"'{customer_name}'님의 주문 내역 ({len(df)}건)을 찾았습니다.")
